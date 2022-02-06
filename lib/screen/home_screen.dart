@@ -15,15 +15,15 @@ class HomeScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            GetX<HomeController>(builder: (controller) {
+            Obx(() {
               print("User status rebuild");
-              return Text("User status ${controller.status.value}");
+              return Text("User status ${homeController.status.value}");
             }),
-            GetX<HomeController>(builder: (controller) {
+            Obx(() {
               print("User cart rebuild");
-              return Text("User cart ${controller.cart.value}");
+              return Text("User cart ${homeController.cart.value}");
             }),
-            GetX<HomeController>(builder: (controller) {
+            Obx(() {
               print("Button rebuild");
               return ElevatedButton(
                   onPressed: () {
@@ -31,7 +31,7 @@ class HomeScreen extends StatelessWidget {
                         ? homeController.updateStatus("Offline")
                         : homeController.updateStatus("Online");
                   },
-                  child: controller.status.toLowerCase() == "online"
+                  child: homeController.status.toLowerCase() == "online"
                       ? const Text("Logout")
                       : const Text("Login"));
             }),
