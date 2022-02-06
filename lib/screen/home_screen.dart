@@ -11,24 +11,43 @@ class HomeScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: Text("Home")),
       body: Center(
-        child: GetBuilder<HomeController>(builder: (controller) {
-          return Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Text("User status ${controller.status}"),
-              ElevatedButton(
-                  onPressed: () {
-                    homeController.status.toLowerCase() == "online"
-                        ? homeController.updateStatus("Offline")
-                        : homeController.updateStatus("Online");
-                  },
-                  child: controller.status.toLowerCase() == "online"
-                      ? const Text("Logout")
-                      : const Text("Login")),
-            ],
-          );
-        }),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            GetBuilder<HomeController>(
+                id: "status_widget",
+                builder: (controller) {
+                  print("User status rebuild");
+                  return Text("User status ${controller.status}");
+                }),
+            GetBuilder<HomeController>(
+                id: "cart_widget",
+                builder: (controller) {
+                  print("User cart rebuild");
+                  return Text("User cart ${controller.cart}");
+                }),
+            GetBuilder<HomeController>(
+                id: "status_widget",
+                builder: (controller) {
+                  print("Button rebuild");
+                  return ElevatedButton(
+                      onPressed: () {
+                        homeController.status.toLowerCase() == "online"
+                            ? homeController.updateStatus("Offline")
+                            : homeController.updateStatus("Online");
+                      },
+                      child: controller.status.toLowerCase() == "online"
+                          ? const Text("Logout")
+                          : const Text("Login"));
+                }),
+            ElevatedButton(
+                onPressed: () {
+                  homeController.incrementCart();
+                },
+                child: Text("Cart incriment"))
+          ],
+        ),
       ),
     );
   }
